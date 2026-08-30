@@ -1,18 +1,19 @@
 package net.javaguides.ems_backend.dto;
 
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.javaguides.ems_backend.entity.Department;
+import net.javaguides.ems_backend.entity.Role;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UnitDto {
+public class UserDto {
     private Long id;
-    private String name;
-    private String description;
-    private DepartmentDto department;
+    private String username;
+    private String email;
+    private Role role;
 }

@@ -1,10 +1,13 @@
 package net.javaguides.ems_backend.service.impl;
 
 import lombok.AllArgsConstructor;
+import net.javaguides.ems_backend.dto.CreateUnitDto;
 import net.javaguides.ems_backend.dto.UnitDto;
+import net.javaguides.ems_backend.entity.Department;
 import net.javaguides.ems_backend.entity.Unit;
 import net.javaguides.ems_backend.exception.ResourceNotFound;
 import net.javaguides.ems_backend.mapper.UnitMapper;
+import net.javaguides.ems_backend.repository.DepartmentRepository;
 import net.javaguides.ems_backend.repository.UnitRepository;
 import net.javaguides.ems_backend.service.UnitService;
 import org.springframework.stereotype.Service;
@@ -16,13 +19,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UnitServiceimp implements UnitService {
     private UnitRepository unitRepository;
+    private DepartmentRepository departmentRepository;
+
 
     // create unit
     @Override
-    public UnitDto createUnit(UnitDto unitDto) {
+    public UnitDto createUnit(CreateUnitDto createUnitDto) {
 
-        Unit unit = UnitMapper.mapToUnit(unitDto);
-        Unit saveUnit = unitRepository.save(unit);
+        Unit unitInp = UnitMapper.mapToUnit(createUnitDto);
+        Department department = departmentRepository.findById(createUnitDto.getDepartmentId())
+                .orElseThrow(() ->
+                        new ResourceNotFound("Department not found"));
+
+        unitInp.setDepartment(department);
+        Unit saveUnit = unitRepository.save(unitInp);
 
         return UnitMapper.mapToUnitDto(saveUnit);
     }
@@ -49,20 +59,29 @@ public class UnitServiceimp implements UnitService {
 
     // update units
     @Override
-    public UnitDto updateUnitById(Long unitId, UnitDto unitDto) {
+    public UnitDto updateUnitById(Long unitId, CreateUnitDto createUnitDto) {
 
         Unit unit = unitRepository.findById(unitId)
                 .orElseThrow(() -> new ResourceNotFound("Unit with id " + unitId + " does not exist"));
-        if (unitDto.getName() != null &&
-                !unitDto.getName().isEmpty()) {
+        if (createUnitDto.getName() != null &&
+                !createUnitDto.getName().isEmpty()) {
 
-            unit.setName(unitDto.getName());
+            unit.setName(createUnitDto.getName());
         }
 
-        if (unitDto.getDescription() != null &&
-                !unitDto.getDescription().isEmpty()) {
+        if (createUnitDto.getDescription() != null &&
+                !createUnitDto.getDescription().isEmpty()) {
 
-            unit.setDescription(unitDto.getDescription());
+            unit.setDescription(createUnitDto.getDescription());
+        }
+
+        if (createUnitDto.getDepartmentId() != null ) {
+
+            Department department = departmentRepository.findById(createUnitDto.getDepartmentId())
+                    .orElseThrow(() ->
+                            new ResourceNotFound("Department not found"));
+
+            unit.setDepartment(department);
         }
 
         Unit updatedUnit = unitRepository.save(unit);

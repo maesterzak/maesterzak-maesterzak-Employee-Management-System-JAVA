@@ -24,6 +24,9 @@ public class Unit {
     @Column(name = "description")
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "departmentId")
+    private Department department;
 
 
 }

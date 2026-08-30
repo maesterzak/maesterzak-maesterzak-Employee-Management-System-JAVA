@@ -1,5 +1,6 @@
 package net.javaguides.ems_backend.mapper;
 
+import net.javaguides.ems_backend.dto.CreateUnitDto;
 import net.javaguides.ems_backend.dto.UnitDto;
 import net.javaguides.ems_backend.entity.Unit;
 
@@ -8,15 +9,17 @@ public class UnitMapper {
         return new UnitDto(
                 unit.getId(),
                 unit.getName(),
-                unit.getDescription()
+                unit.getDescription(),
+                DepartmentMapper.mapToDepartmentDto(unit.getDepartment())
         );
     }
 
-    public static Unit mapToUnit(UnitDto unitDto){
+    public static Unit mapToUnit(CreateUnitDto unitDto){
         return new Unit(
-                unitDto.getId(),
+                null,
                 unitDto.getName(),
-                unitDto.getDescription()
+                unitDto.getDescription(),
+                null
         );
     }
 }

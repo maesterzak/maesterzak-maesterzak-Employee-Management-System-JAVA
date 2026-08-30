@@ -1,6 +1,7 @@
 package net.javaguides.ems_backend.controller;
 
 import lombok.AllArgsConstructor;
+import net.javaguides.ems_backend.dto.CreateUnitDto;
 import net.javaguides.ems_backend.dto.EmployeeDto;
 import net.javaguides.ems_backend.dto.MessageResponse;
 import net.javaguides.ems_backend.dto.UnitDto;
@@ -21,7 +22,7 @@ public class UnitController {
     private UnitService unitService;
 
     @PostMapping
-    public ResponseEntity<UnitDto> createUnit(@RequestBody UnitDto unitDto) {
+    public ResponseEntity<UnitDto> createUnit(@RequestBody CreateUnitDto unitDto) {
         UnitDto savedUnits = unitService.createUnit(unitDto);
         return new ResponseEntity<>(savedUnits, HttpStatus.CREATED);
     }
@@ -40,8 +41,8 @@ public class UnitController {
 
     @PatchMapping("{id}")
     public ResponseEntity<UnitDto> updateUnitById(@PathVariable("id") Long UnitId,
-            @RequestBody UnitDto unitDto) {
-        UnitDto unit = unitService.updateUnitById(UnitId, unitDto);
+                                                  @RequestBody CreateUnitDto createUnitDto) {
+        UnitDto unit = unitService.updateUnitById(UnitId, createUnitDto);
         return new ResponseEntity<>(unit, HttpStatus.ACCEPTED);
     }
 

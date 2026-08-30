@@ -2,6 +2,7 @@ package net.javaguides.ems_backend.controller;
 
 
 import lombok.AllArgsConstructor;
+import net.javaguides.ems_backend.dto.CreateEmployeeDto;
 import net.javaguides.ems_backend.dto.EmployeeDto;
 import net.javaguides.ems_backend.dto.MessageResponse;
 import net.javaguides.ems_backend.service.EmployeeService;
@@ -19,7 +20,7 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping
-    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto){
+    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody CreateEmployeeDto employeeDto){
         EmployeeDto savedEmployees = employeeService.createEmployee(employeeDto);
         return  new ResponseEntity<>(savedEmployees, HttpStatus.CREATED);
     }
@@ -37,8 +38,8 @@ public class EmployeeController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<EmployeeDto> updateEmployeeById(@PathVariable("id") Long employeeId, @RequestBody EmployeeDto employeeDto) {
-        EmployeeDto employee = employeeService.updateEmployeeById(employeeId, employeeDto);
+    public ResponseEntity<EmployeeDto> updateEmployeeById(@PathVariable("id") Long employeeId, @RequestBody CreateEmployeeDto createEmployeeDto) {
+        EmployeeDto employee = employeeService.updateEmployeeById(employeeId, createEmployeeDto);
         return new ResponseEntity<>(employee, HttpStatus.ACCEPTED);
     }
 

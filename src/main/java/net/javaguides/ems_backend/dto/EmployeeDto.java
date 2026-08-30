@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.javaguides.ems_backend.entity.Unit;
 
 @Getter
 @Setter
@@ -14,5 +15,5 @@ public class EmployeeDto {
     private String firstName;
     private String lastName;
     private String email;
-
+    private UnitDto unit;
 }
